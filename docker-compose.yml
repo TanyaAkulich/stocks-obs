@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    restart: always
+    image: circleci/postgres:12-alpine-postgis
+    environment:
+      POSTGRES_DB: inventory_accounting_development
+      POSTGRES_USER: inventory_accounting
+      POSTGRES_PASSWORD:
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+  web:
+    restart: always
+    image: stocks-obs/app
+    environment:
+      RAILS_ENV: development
+      DOMAIN_PROTOCOL: http://
+      DOMAIN_NAME: DOMAIN_NAME
+      DATABASE_URL: postgresql://inventory_accounting@db:5432/inventory_accounting_development
+    build: .
+    # command: bundle exec rails s webrick -b '0.0.0.0'
+    command: bash -c "rm -f tmp/pids/server.pid /usr/local/var/postgres/postmaster.pid  && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/stocks-obs
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db

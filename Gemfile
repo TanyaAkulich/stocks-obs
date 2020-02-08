@@ -14,6 +14,7 @@ gem 'simple_form', '~> 5.0', '>= 5.0.1'
 gem 'slim', '~> 4.0', '>= 4.0.1'
 gem 'cocoon', '~> 1.2', '>= 1.2.14'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.5'
+gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
